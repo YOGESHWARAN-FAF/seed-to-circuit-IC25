@@ -1,0 +1,369 @@
+{
+  "fertilizer_recommendations": [
+    {
+      "sno": 1,
+      "agroclimatic_zone": "Western Himalayas (J & K, H.P.)",
+      "soil": "Alluvial, Brown-hill",
+      "crop_cropping_system": "Rice (K)",
+      "npk_ratio": "4:2:1",
+      "fertilization_recommendation": "120-60-30"
+    },
+    {
+      "sno": 1,
+      "agroclimatic_zone": "Western Himalayas (J & K, H.P.)",
+      "soil": "Alluvial, Brown-hill",
+      "crop_cropping_system": "Wheat",
+      "npk_ratio": "6:2:1",
+      "fertilization_recommendation": "150-50-25"
+    },
+    {
+      "sno": 2,
+      "agroclimatic_zone": "Eastern Himalaya (Assam, W.B., NE states)",
+      "soil": "Alluvial, Brown hill, Red, Tarai",
+      "crop_cropping_system": "Rice (K)",
+      "npk_ratio": "4:2:2",
+      "fertilization_recommendation": "80-40-40"
+    },
+    {
+      "sno": 2,
+      "agroclimatic_zone": "Eastern Himalaya (Assam, W.B., NE states)",
+      "soil": "Alluvial, Brown hill, Red, Tarai",
+      "crop_cropping_system": "Rice (R)",
+      "npk_ratio": "4:2:2",
+      "fertilization_recommendation": "80-40-40"
+    },
+    {
+      "sno": 3,
+      "agroclimatic_zone": "Lower Gangetic Plain (W.B.)",
+      "soil": "Alluvial Red Lateritic",
+      "crop_cropping_system": "Rice (K)",
+      "npk_ratio": "4:2:2",
+      "fertilization_recommendation": "80-40-40"
+    },
+    {
+      "sno": 3,
+      "agroclimatic_zone": "Lower Gangetic Plain (W.B.)",
+      "soil": "Alluvial Red Lateritic",
+      "crop_cropping_system": "Wheat",
+      "npk_ratio": "6:2:2",
+      "fertilization_recommendation": "120-40-40"
+    },
+    {
+      "sno": 4,
+      "agroclimatic_zone": "Middle Gangetic Plain (Eastern U.P.)",
+      "soil": "Alluvial Red & Black",
+      "crop_cropping_system": "Rice (K)",
+      "npk_ratio": "4:2:2",
+      "fertilization_recommendation": "120-60-60"
+    },
+    {
+      "sno": 4,
+      "agroclimatic_zone": "Middle Gangetic Plain (Eastern U.P.)",
+      "soil": "Alluvial Red & Black",
+      "crop_cropping_system": "Wheat",
+      "npk_ratio": "4:2:1.3",
+      "fertilization_recommendation": "120-60-40"
+    },
+    {
+      "sno": 4,
+      "agroclimatic_zone": "Middle Gangetic Plain (Eastern U.P.)",
+      "soil": "Alluvial Red & Black",
+      "crop_cropping_system": "Sugarcane",
+      "npk_ratio": "4:5:1.5:1",
+      "fertilization_recommendation": "180-60-40"
+    },
+    {
+      "sno": 5,
+      "agroclimatic_zone": "Upper Gangetic Plain (Western U.P.)",
+      "soil": "Alluvial",
+      "crop_cropping_system": "Rice (K)",
+      "npk_ratio": "5:2:2",
+      "fertilization_recommendation": "150-60-60"
+    },
+    {
+      "sno": 5,
+      "agroclimatic_zone": "Upper Gangetic Plain (Western U.P.)",
+      "soil": "Alluvial",
+      "crop_cropping_system": "Wheat",
+      "npk_ratio": "5:2:2",
+      "fertilization_recommendation": "150-60-60"
+    },
+    {
+      "sno": 5,
+      "agroclimatic_zone": "Upper Gangetic Plain (Western U.P.)",
+      "soil": "Alluvial",
+      "crop_cropping_system": "Sugarcane",
+      "npk_ratio": "5:2:2",
+      "fertilization_recommendation": "150-60-60"
+    },
+    {
+      "sno": 5,
+      "agroclimatic_zone": "Upper Gangetic Plain (Western U.P.)",
+      "soil": "Alluvial",
+      "crop_cropping_system": "Potato",
+      "npk_ratio": "6:2:3",
+      "fertilization_recommendation": "180-60-90"
+    },
+    {
+      "sno": 6,
+      "agroclimatic_zone": "Trans Gangetic Plain (Punjab)",
+      "soil": "Alluvial",
+      "crop_cropping_system": "Rice (K)",
+      "npk_ratio": "4:1:1",
+      "fertilization_recommendation": "120-30-30"
+    },
+    {
+      "sno": 6,
+      "agroclimatic_zone": "Trans Gangetic Plain (Punjab)",
+      "soil": "Alluvial",
+      "crop_cropping_system": "Wheat",
+      "npk_ratio": "4:2:1",
+      "fertilization_recommendation": "120-60-30"
+    },
+    {
+      "sno": 6,
+      "agroclimatic_zone": "Trans Gangetic Plain (Punjab)",
+      "soil": "Alluvial",
+      "crop_cropping_system": "Sugarcane",
+      "npk_ratio": "5:2:2",
+      "fertilization_recommendation": "150-60-60"
+    },
+    {
+      "sno": 6,
+      "agroclimatic_zone": "Trans Gangetic Plain (Punjab)",
+      "soil": "Alluvial",
+      "crop_cropping_system": "Cotton (Hybrid /Bt)",
+      "npk_ratio": "3:1:0",
+      "fertilization_recommendation": "150-50-0"
+    },
+    {
+      "sno": 6,
+      "agroclimatic_zone": "Trans Gangetic Plain (Punjab)",
+      "soil": "Alluvial",
+      "crop_cropping_system": "G.hirsutum",
+      "npk_ratio": "2:5:1:0",
+      "fertilization_recommendation": "75-30-0"
+    },
+    {
+      "sno": 6,
+      "agroclimatic_zone": "Trans Gangetic Plain (Punjab)",
+      "soil": "Alluvial",
+      "crop_cropping_system": "Mustard (R) (Irrigated)",
+      "npk_ratio": "7:2:1",
+      "fertilization_recommendation": "100-30-15"
+    },
+    {
+      "sno": 7,
+      "agroclimatic_zone": "Eastern Plateau & Hills",
+      "soil": "Red & yellow, Red & lateritic, Mixed red & black",
+      "crop_cropping_system": "Rice (K)",
+      "npk_ratio": "4:2:1-3",
+      "fertilization_recommendation": "120-60-40"
+    },
+    {
+      "sno": 7,
+      "agroclimatic_zone": "Eastern Plateau & Hills",
+      "soil": "Red & yellow, Red & lateritic, Mixed red & black",
+      "crop_cropping_system": "Pulses (K)",
+      "npk_ratio": "1:3:1",
+      "fertilization_recommendation": "20-60-20"
+    },
+    {
+      "sno": 8,
+      "agroclimatic_zone": "Central Plateau & Hills",
+      "soil": "Alluvial Shallow black",
+      "crop_cropping_system": "Soybean",
+      "npk_ratio": "1:3:1",
+      "fertilization_recommendation": "20-60-20"
+    },
+    {
+      "sno": 8,
+      "agroclimatic_zone": "Central Plateau & Hills",
+      "soil": "Alluvial Shallow black",
+      "crop_cropping_system": "Wheat",
+      "npk_ratio": "4:2:1.3",
+      "fertilization_recommendation": "120-60-40"
+    },
+    {
+      "sno": 9,
+      "agroclimatic_zone": "Western Plateau (Maharashtra and Southern M.P.)",
+      "soil": "Black Reddish brown",
+      "crop_cropping_system": "Cotton (Hybrid/Bt)",
+      "npk_ratio": "4:2:2",
+      "fertilization_recommendation": "100-50-50"
+    },
+    {
+      "sno": 9,
+      "agroclimatic_zone": "Western Plateau (Maharashtra and Southern M.P.)",
+      "soil": "Black Reddish brown",
+      "crop_cropping_system": "G.hirsutum",
+      "npk_ratio": "4:2:2",
+      "fertilization_recommendation": "50-25-25"
+    },
+    {
+      "sno": 9,
+      "agroclimatic_zone": "Western Plateau (Maharashtra and Southern M.P.)",
+      "soil": "Black Reddish brown",
+      "crop_cropping_system": "Sugarcane",
+      "npk_ratio": "2.2:1:1",
+      "fertilization_recommendation": "250-115-115"
+    },
+    {
+      "sno": 10,
+      "agroclimatic_zone": "Southern Plateau",
+      "soil": "Red & Leteritic, Black, Alluvial",
+      "crop_cropping_system": "Rice (K)",
+      "npk_ratio": "4:2:2",
+      "fertilization_recommendation": "120-60-60"
+    },
+    {
+      "sno": 10,
+      "agroclimatic_zone": "Southern Plateau",
+      "soil": "Red & Leteritic, Black, Alluvial",
+      "crop_cropping_system": "Rice (R)",
+      "npk_ratio": "4:2:2",
+      "fertilization_recommendation": "120-60-60"
+    },
+    {
+      "sno": 10,
+      "agroclimatic_zone": "Southern Plateau",
+      "soil": "Red & Leteritic, Black, Alluvial",
+      "crop_cropping_system": "Sugarcane",
+      "npk_ratio": "0.9:0.8:1",
+      "fertilization_recommendation": "112-100-120"
+    },
+    {
+      "sno": 10,
+      "agroclimatic_zone": "Southern Plateau",
+      "soil": "Red & Leteritic, Black, Alluvial",
+      "crop_cropping_system": "Cotton (Hybrid/Bt)",
+      "npk_ratio": "4:2:2",
+      "fertilization_recommendation": "120-60-60"
+    },
+    {
+      "sno": 10,
+      "agroclimatic_zone": "Southern Plateau",
+      "soil": "Red & Leteritic, Black, Alluvial",
+      "crop_cropping_system": "G.herbaceum",
+      "npk_ratio": "4:2:2",
+      "fertilization_recommendation": "90-45-45"
+    },
+    {
+      "sno": 10,
+      "agroclimatic_zone": "Southern Plateau",
+      "soil": "Red & Leteritic, Black, Alluvial",
+      "crop_cropping_system": "Sunflower (rainfed)",
+      "npk_ratio": "2:2:1",
+      "fertilization_recommendation": "60-60-30"
+    },
+    {
+      "sno": 10,
+      "agroclimatic_zone": "Southern Plateau",
+      "soil": "Red & Leteritic, Black, Alluvial",
+      "crop_cropping_system": "Sunflower (irrigated)",
+      "npk_ratio": "2.5:3:1",
+      "fertilization_recommendation": "75-90-30"
+    },
+    {
+      "sno": 11,
+      "agroclimatic_zone": "East Coast Plains & Hills",
+      "soil": "Red, Black Coastal Alluvium",
+      "crop_cropping_system": "Rice (K)",
+      "npk_ratio": "4:2:2",
+      "fertilization_recommendation": "80-40-40"
+    },
+    {
+      "sno": 11,
+      "agroclimatic_zone": "East Coast Plains & Hills",
+      "soil": "Red, Black Coastal Alluvium",
+      "crop_cropping_system": "Rice (R)",
+      "npk_ratio": "5:2.5:2",
+      "fertilization_recommendation": "100-50-40"
+    },
+    {
+      "sno": 12,
+      "agroclimatic_zone": "West Coast Plains & Ghats",
+      "soil": "Red, Lateritic Coastal Alluvium",
+      "crop_cropping_system": "Rice (K)",
+      "npk_ratio": "4:2:2",
+      "fertilization_recommendation": "90-45-45"
+    },
+    {
+      "sno": 12,
+      "agroclimatic_zone": "West Coast Plains & Ghats",
+      "soil": "Red, Lateritic Coastal Alluvium",
+      "crop_cropping_system": "Rice (R)",
+      "npk_ratio": "4:2:2",
+      "fertilization_recommendation": "90-45-45"
+    },
+    {
+      "sno": 13,
+      "agroclimatic_zone": "Gujarat Plains & Hills",
+      "soil": "Red, Black",
+      "crop_cropping_system": "Groundnut (K)",
+      "npk_ratio": "1:1.6:0",
+      "fertilization_recommendation": "15-25-0"
+    },
+    {
+      "sno": 13,
+      "agroclimatic_zone": "Gujarat Plains & Hills",
+      "soil": "Red, Black",
+      "crop_cropping_system": "Wheat",
+      "npk_ratio": "4:2:0",
+      "fertilization_recommendation": "120-60-0"
+    },
+    {
+      "sno": 14,
+      "agroclimatic_zone": "Western Dry Region (Rajasthan)",
+      "soil": "Reddish brown, Desert",
+      "crop_cropping_system": "Pearlmillet (K)",
+      "npk_ratio": "3:1:0",
+      "fertilization_recommendation": "90-30-0"
+    },
+    {
+      "sno": 14,
+      "agroclimatic_zone": "Western Dry Region (Rajasthan)",
+      "soil": "Reddish brown, Desert",
+      "crop_cropping_system": "Wheat",
+      "npk_ratio": "3:1:0",
+      "fertilization_recommendation": "90-30-0"
+    },
+    {
+      "sno": 14,
+      "agroclimatic_zone": "Western Dry Region (Rajasthan)",
+      "soil": "Reddish brown, Desert",
+      "crop_cropping_system": "Cotton (Hybrid/Bt)",
+      "npk_ratio": "7.5:2:1",
+      "fertilization_recommendation": "150-40-20"
+    },
+    {
+      "sno": 14,
+      "agroclimatic_zone": "Western Dry Region (Rajasthan)",
+      "soil": "Reddish brown, Desert",
+      "crop_cropping_system": "G.hirsutum",
+      "npk_ratio": "4:2:1",
+      "fertilization_recommendation": "60-40-20"
+    },
+    {
+      "sno": 14,
+      "agroclimatic_zone": "Western Dry Region (Rajasthan)",
+      "soil": "Reddish brown, Desert",
+      "crop_cropping_system": "Sugarcane",
+      "npk_ratio": "4:1.2:1.2",
+      "fertilization_recommendation": "200-60-60"
+    },
+    {
+      "sno": 15,
+      "agroclimatic_zone": "Island region (Andaman & Nicobar)",
+      "soil": "Coastal Alluvium salty",
+      "crop_cropping_system": "Rice (K)",
+      "npk_ratio": "4:2:1.3",
+      "fertilization_recommendation": "120-60-40"
+    }
+  ],
+  "notes": [
+    "K = Kharif; R = Rabi (K – R make a two crops a year cropping system)",
+    "4:2:2 is used instead of 2:1:1 to permit comparison with 4:2:1. As far as possible all ratios are rounded up to whole numbers.",
+    "Regions and crops, where K fertilization is not recommended may receive K application if indicated by soil test."
+  ]
+}

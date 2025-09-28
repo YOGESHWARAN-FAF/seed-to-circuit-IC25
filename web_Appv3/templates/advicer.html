@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Recommendation System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { green: '#2e7d32', light: '#81c784', dark: '#1b5e20' },
+                        secondary: { yellow: '#ffd54f', light: '#ffecb3' },
+                        accent: { white: '#ffffff' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .data-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .data-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .nutrient-input:focus { border-color: #2e7d32; box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2); }
+        #recommendationButton:hover { transform: scale(1.02); }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+<!-- Header -->
+<header class="bg-primary-green text-accent-white py-6 shadow-md">
+    <div class="container mx-auto px-4">
+        <h1 class="text-3xl md:text-4xl font-bold text-center">NEW PLANT RECOMMENDATION</h1>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="flex-grow container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+        <!-- Left Column -->
+        <div class="space-y-8">
+            <!-- NPK Input -->
+            <div class="bg-accent-white rounded-xl shadow-md p-6 fade-in">
+                <h2 class="text-xl font-semibold text-primary-dark mb-6 flex items-center">
+                    <i class="fas fa-flask mr-2 text-primary-green"></i> Soil Nutrient Levels
+                </h2>
+                <div class="grid grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <label for="nitrogen" class="block text-sm font-medium text-gray-700 mb-1">Nitrogen (N)</label>
+                        <input type="number" id="nitrogen" class="nutrient-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-green" placeholder="Enter value">
+                    </div>
+                    <div>
+                        <label for="phosphorus" class="block text-sm font-medium text-gray-700 mb-1">Phosphorus (P)</label>
+                        <input type="number" id="phosphorus" class="nutrient-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-green" placeholder="Enter value">
+                    </div>
+                    <div>
+                        <label for="potassium" class="block text-sm font-medium text-gray-700 mb-1">Potassium (K)</label>
+                        <input type="number" id="potassium" class="nutrient-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-green" placeholder="Enter value">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="ph" class="block text-sm font-medium text-gray-700 mb-1">pH</label>
+                        <input type="number" id="ph" class="nutrient-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-green" placeholder="Enter value">
+                    </div>
+                    <div>
+                        <label for="moisture" class="block text-sm font-medium text-gray-700 mb-1">Moisture</label>
+                        <input type="number" id="moisture" class="nutrient-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-green" placeholder="Enter value">
+                    </div>
+                </div>
+                <div class="flex justify-between items-center">
+                    <button id="fetchSensorData" class="text-primary-green hover:text-primary-dark font-medium flex items-center">
+                        <i class="fas fa-sync-alt mr-2"></i> Fetch from Sensor
+                    </button>
+                    <div id="sensorStatus" class="text-sm text-gray-500 hidden">
+                        <i class="fas fa-circle-notch fa-spin mr-1"></i> Fetching data...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trending Vegetables -->
+            <div class="bg-accent-white rounded-xl shadow-md p-6 fade-in">
+                <h2 class="text-xl font-semibold text-primary-dark mb-4 flex items-center">
+                    <i class="fas fa-chart-line mr-2 text-secondary-yellow"></i> Current Market Trends
+                </h2>
+                <div id="trendingVegetables" class="grid grid-cols-2 gap-4">
+                    <div class="col-span-2 text-center py-8">
+                        <i class="fas fa-spinner fa-spin text-2xl text-primary-green"></i>
+                        <p class="mt-2 text-gray-600">Loading market data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="space-y-8">
+            <!-- Current Weather -->
+            <div class="weather-panel bg-accent-white rounded-xl shadow-md p-6 fade-in">
+                <h2 class="text-xl font-semibold text-primary-dark mb-4 flex items-center">
+                    <i class="fas fa-cloud-sun mr-2 text-primary-green"></i> Current Weather in Salem
+                </h2>
+                <div id="currentWeather" class="text-center py-8">
+                    <i class="fas fa-spinner fa-spin text-2xl text-primary-green"></i>
+                    <p class="mt-2 text-gray-600">Loading weather data...</p>
+                </div>
+            </div>
+
+            <!-- Historical Weather -->
+            <div class="weather-panel bg-accent-white rounded-xl shadow-md p-6 fade-in">
+                <h2 class="text-xl font-semibold text-primary-dark mb-4 flex items-center">
+                    <i class="fas fa-chart-line mr-2 text-primary-green"></i> Past 6 Months Weather
+                </h2>
+                <canvas id="weatherChart" height="250"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Recommendation Button -->
+    <div class="mt-12 text-center">
+        <button id="recommendationButton" class="bg-secondary-yellow hover:bg-secondary-light text-primary-dark font-bold py-4 px-8 rounded-full text-lg shadow-lg transition-all duration-300 transform hover:scale-105">
+            FIND THE PERFECT CROP
+        </button>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-primary-green text-accent-white py-4 mt-8">
+    <div class="container mx-auto px-4 text-center">
+        <p>&copy; 2023 Plant Recommendation System. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const appData = {
+        npkValues: { nitrogen: null, phosphorus: null, potassium: null, ph: null, moisture: null },
+        weatherData: { current: null, historical: null },
+        marketTrends: null
+    };
+
+    const fetchSensorBtn = document.getElementById("fetchSensorData");
+    const sensorStatus = document.getElementById("sensorStatus");
+    const nitrogenInput = document.getElementById("nitrogen");
+    const phosphorusInput = document.getElementById("phosphorus");
+    const potassiumInput = document.getElementById("potassium");
+    const phInput = document.getElementById("ph");
+    const moistureInput = document.getElementById("moisture");
+    const recommendationButton = document.getElementById("recommendationButton");
+    const marketContainer = document.getElementById("trendingVegetables");
+
+    function updateNpkValues() {
+        appData.npkValues = {
+            nitrogen: parseFloat(nitrogenInput.value) || 0,
+            phosphorus: parseFloat(phosphorusInput.value) || 0,
+            potassium: parseFloat(potassiumInput.value) || 0,
+            ph: parseFloat(phInput.value) || 0,
+            moisture: parseFloat(moistureInput.value) || 0
+        };
+        console.log("Updated NPK values:", appData.npkValues);
+    }
+
+    async function fetchLatestThingSpeakData() {
+        fetchSensorBtn.disabled = true;
+        sensorStatus.classList.remove("hidden");
+        sensorStatus.textContent = "Fetching sensor data...";
+        try {
+            const response = await fetch("https://api.thingspeak.com/channels/2828170/feeds.json?api_key=R7NLLQNPWE6V6RX7&results=1");
+            if (!response.ok) throw new Error("ThingSpeak fetch failed");
+            const data = await response.json();
+            const latest = data.feeds[0];
+            nitrogenInput.value = Math.round(parseFloat(latest.field1) * 15 * 100)/100;
+            phosphorusInput.value = Math.round(parseFloat(latest.field2) * 1 * 100)/100;
+            potassiumInput.value = Math.round(parseFloat(latest.field3) * 3.5 * 100)/100;
+            phInput.value = parseFloat(latest.field4) || 0;
+            moistureInput.value = parseFloat(latest.field5) || 0;
+            updateNpkValues();
+            sensorStatus.textContent = "✅ Sensor data fetched successfully!";
+        } catch (err) {
+            console.error(err);
+            sensorStatus.textContent = "❌ Failed to fetch sensor data!";
+        } finally {
+            fetchSensorBtn.disabled = false;
+        }
+    }
+
+    const API_KEY = "647e990dc0844e65a63102000251103";
+    const LOCATION = "Salem";
+
+    async function fetchCurrentWeather() {
+        try {
+            const res = await fetch(`https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${LOCATION}&aqi=no`);
+            if (!res.ok) throw new Error("Weather fetch failed");
+            const data = await res.json();
+            appData.weatherData.current = data;
+            document.getElementById("currentWeather").textContent =
+                `${data.location.name}: ${data.current.temp_c}°C, ${data.current.condition.text}`;
+        } catch (err) {
+            console.error(err);
+            document.getElementById("currentWeather").textContent = "❌ Weather fetch failed!";
+        }
+    }
+
+    function fetchHistoricalWeather() {
+        const mock = {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+            maxTemps: [28, 30, 32, 34, 33, 30],
+            minTemps: [20, 21, 23, 24, 24, 23],
+            rainfall: [15, 10, 8, 25, 45, 30]
+        };
+        appData.weatherData.historical = mock;
+        renderWeatherChart(mock);
+    }
+
+    function renderWeatherChart(data) {
+        const ctx = document.getElementById("weatherChart").getContext("2d");
+        new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: data.labels,
+                datasets: [
+                    { label: "Max Temp", data: data.maxTemps, borderColor: "red", fill: false },
+                    { label: "Min Temp", data: data.minTemps, borderColor: "blue", fill: false },
+                    { label: "Rainfall", data: data.rainfall, borderColor: "green", fill: false, yAxisID: "y1" }
+                ]
+            },
+            options: {
+                scales: { y1: { type: "linear", position: "right" } }
+            }
+        });
+    }
+
+    function fetchMarketTrends() {
+        const mock = [
+            { crop: "Tomatoes", price: 45, demand: "High" },
+            { crop: "Bell Peppers", price: 60, demand: "Medium" },
+            { crop: "Spinach", price: 30, demand: "High" },
+            { crop: "Carrots", price: 35, demand: "Medium" }
+        ];
+        appData.marketTrends = mock;
+        renderMarketTrends(mock);
+    }
+
+    function renderMarketTrends(data) {
+        marketContainer.innerHTML = "";
+        data.forEach(item => {
+            const div = document.createElement("div");
+            div.className = "col-span-1 bg-gray-100 p-4 rounded-md text-center";
+            div.innerHTML = `<strong>${item.crop}</strong><br>Price: ₹${item.price}/kg<br>Demand: ${item.demand}`;
+            marketContainer.appendChild(div);
+        });
+    }
+
+    function recommendCrop() {
+        if (!appData.npkValues.nitrogen) return alert("⚠️ Please fetch NPK data first!");
+        if (!appData.weatherData.current) return alert("⚠️ Please fetch weather data first!");
+        if (!appData.marketTrends) return alert("⚠️ Please fetch market data first!");
+        alert("✅ Recommendation ready! Check console for full details.");
+        console.log(appData);
+        window.location.href = "http://127.0.0.1:5000/recommendations";
+    }
+
+    fetchSensorBtn.addEventListener("click", fetchLatestThingSpeakData);
+    recommendationButton.addEventListener("click", recommendCrop);
+
+    fetchCurrentWeather();
+    fetchHistoricalWeather();
+    fetchMarketTrends();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Field Manager Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="language.js"></script>
+  <style>
+    :root {
+      --primary: #3498db;
+      --secondary: #2980b9;
+      --accent: #e74c3c;
+      --light: #f8f9fa;
+      --dark: #2c3e50;
+      --text: #34495e;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2rem;
+    }
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+    }
+    .add-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .add-btn:hover { background: var(--secondary); }
+    .fields-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(160px,1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .field-box {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      position: relative;
+    }
+    .field-box:hover { border-color: var(--primary); transform: translateY(-3px); }
+    .remove-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: var(--accent);
+      border: none;
+      color: white;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<div id="google_translate_element"></div>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Field Manager</h1>
+      <button class="add-btn" id="addFieldBtn">+ Add Field</button>
+    </div>
+    <div class="fields-grid" id="fieldsContainer"></div>
+  </div>
+
+  <script>
+    let fields = JSON.parse(localStorage.getItem('fields')) || [];
+    let fieldCount = fields.length > 0 ? Math.max(...fields.map(f => f.id)) : 0;
+    const fieldsContainer = document.getElementById('fieldsContainer');
+    const addFieldBtn = document.getElementById('addFieldBtn');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fields.forEach(field => createFieldBox(field.id, field.name));
+    });
+
+    addFieldBtn.addEventListener('click', () => {
+      fieldCount++;
+      const fieldName = `Field ${fieldCount}`;
+      fields.push({ id: fieldCount, name: fieldName });
+      saveFields();
+      createFieldBox(fieldCount, fieldName);
+    });
+
+    function createFieldBox(id, name) {
+      const div = document.createElement('div');
+      div.className = 'field-box';
+      div.innerHTML = `
+        <button class="remove-btn" onclick="removeField(event,${id})">&times;</button>
+        <h3>${name}</h3>
+        <p>Click to view</p>
+      `;
+      div.addEventListener('click', (e) => {
+        if (e.target.classList.contains('remove-btn')) return;
+        localStorage.setItem('selectedField', id);
+        window.location.href = "http://127.0.0.1:5000/index/role/main/plant/field/1";
+      });
+      fieldsContainer.appendChild(div);
+    }
+
+    function removeField(event,id) {
+      event.stopPropagation();
+      fields = fields.filter(f => f.id !== id);
+      saveFields();
+      render();
+    }
+
+    function render() {
+      fieldsContainer.innerHTML = '';
+      fields.forEach(f => createFieldBox(f.id,f.name));
+    }
+
+    function saveFields() {
+      localStorage.setItem('fields', JSON.stringify(fields));
+    }
+    // language.js - Put this in a shared file and include in all HTML files
+// Language configuration
+const languageConfig = {
+    'en': { name: 'English', direction: 'ltr' },
+    'ta': { name: 'Tamil', direction: 'ltr' },
+    'te': { name: 'Telugu', direction: 'ltr' }
+};
+
+// Initialize language
+function initLanguage() {
+    // Get stored language or default to English
+    const langCode = localStorage.getItem('selectedLanguage') || 'en';
+    applyLanguage(langCode);
+    
+    // Setup Google Translate
+    initGoogleTranslate(langCode);
+}
+
+function applyLanguage(langCode) {
+    document.documentElement.lang = langCode;
+    document.documentElement.dir = languageConfig[langCode]?.direction || 'ltr';
+}
+
+function initGoogleTranslate(defaultLang) {
+    // First, set the Google Translate cookie to force the language
+    if (defaultLang && defaultLang !== 'en') {
+        document.cookie = `googtrans=/en/${defaultLang}; path=/; expires=${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString()}`;
+    }
+
+    // Create the Google Translate script if it doesn't exist
+    if (!window.google || !window.google.translate) {
+        const script = document.createElement('script');
+        script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+        document.head.appendChild(script);
+        
+        window.googleTranslateElementInit = function() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,ta,te',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+            
+            // Hide the Google Translate branding
+            const googleBranding = document.querySelector('.goog-te-banner-frame');
+            if (googleBranding) {
+                googleBranding.style.display = 'none';
+            }
+            
+            // Force the language selection
+            if (defaultLang && defaultLang !== 'en') {
+                setTimeout(() => {
+                    const select = document.querySelector('.goog-te-combo');
+                    if (select) {
+                        select.value = defaultLang;
+                        select.dispatchEvent(new Event('change'));
+                    }
+                }, 1000);
+            }
+        };
+    } else {
+        googleTranslateElementInit();
+    }
+}
+
+// Track language changes
+function trackLanguageChanges() {
+    setInterval(() => {
+        const iframe = document.querySelector('.goog-te-menu-frame');
+        if (iframe) {
+            iframe.contentDocument.querySelector('.goog-te-menu2-item').addEventListener('click', function() {
+                const lang = this.getAttribute('data-language');
+                localStorage.setItem('selectedLanguage', lang);
+                applyLanguage(lang);
+            });
+        }
+    }, 1000);
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initLanguage();
+    trackLanguageChanges();
+});
+  </script>
+</body>
+</html>
