@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DeepSoil Analytics</title>
+    <script src="language.js"></script>
+    <style>
+        :root {
+            --deep-green: #0D2818;
+            --forest: #1B4332;
+            --sun-yellow: #FFD700;
+            --cream: #F8F9FA;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui;
+            background: linear-gradient(45deg, #0D2818, #1B4332);
+            color: var(--cream);
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.2s forwards;
+            position: relative;
+        }
+
+        .sensor-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .nutrient-orb {
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            width: 220px;
+            height: 220px;
+            margin: 0 auto;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: orbEntrance 0.6s forwards;
+        }
+
+        .nutrient-orb:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(255,215,0,0.2);
+        }
+
+        .orb-fill {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            clip-path: inset(0 0 0 0);
+            background: conic-gradient(
+                var(--sun-yellow) 0%,
+                transparent 0%
+            );
+            transition: var(--transition);
+        }
+
+        .orb-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .orb-value {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--sun-yellow), #F8F9FA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ai-report {
+            background: linear-gradient(160deg, #1B4332, #0D2818);
+            border-radius: 2rem;
+            padding: 3rem;
+            margin-top: 4rem;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: reportEntrance 0.8s 0.4s forwards;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .report-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .report-item {
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateX(30px);
+            animation: slideIn 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes orbEntrance {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes reportEntrance {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .glow-bar {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,215,0,0.1),
+                transparent
+            );
+            animation: glowSweep 8s infinite;
+        }
+
+        @keyframes glowSweep {
+            50% { left: 140%; }
+        }
+
+        .status-pulse {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            animation: pulse 2s infinite;
+            background: var(--sun-yellow);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255,215,0,0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(255,215,0,0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,215,0,0); }
+        }
+
+        .download-btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: var(--sun-yellow);
+            color: var(--deep-green);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255,215,0,0.4);
+        }
+
+        .language-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .language-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: var(--forest);
+            padding: 2rem;
+            border-radius: 1rem;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+            color: var(--sun-yellow);
+        }
+
+        .language-input {
+            width: 100%;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 0.5rem;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .modal-btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-btn.primary {
+            background: var(--sun-yellow);
+            color: var(--deep-green);
+        }
+
+        .modal-btn.secondary {
+            background: transparent;
+            color: var(--cream);
+            border: 1px solid var(--cream);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard">
+        <div class="header">
+            <div id="google_translate_element"></div>
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--sun-yellow);">🌍 DeepSoil Analysis Report</h1>
+            <p class="subtitle">AI-Powered Soil Health Intelligence</p>
+            <button class="download-btn" id="downloadBtn">📥 Download Report</button>
+        </div>
+
+        <div class="sensor-grid" id="sensorData"></div>
+
+        <div class="ai-report" id="aiAnalysis">
+            <div class="glow-bar"></div>
+            <div class="report-header">
+                <h2 style="font-size: 1.8rem; color: var(--sun-yellow);">🧪 Laboratory Grade Analysis</h2>
+                <div class="status-pulse"></div>
+            </div>
+            <div id="reportContent"></div>
+        </div>
+    </div>
+
+    <div class="language-modal" id="languageModal">
+        <div class="modal-content">
+            <h3>Select Report Language</h3>
+            <p>Enter the language you want the report translated to (e.g., Tamil, Hindi, Spanish):</p>
+            <input type="text" class="language-input" id="languageInput" placeholder="Enter language name">
+            <div class="modal-actions">
+                <button class="modal-btn secondary" id="cancelBtn">Cancel</button>
+                <button class="modal-btn primary" id="confirmBtn">Download</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+const GEMINI_API_KEY = 'AIzaSyCozY_9cxmp9P-xaWPFlpCLRLRKGBBisjc';
+let currentReport = "";
+
+async function fetchLatestThingSpeakData() {
+    const url = "https://api.thingspeak.com/channels/2828170/feeds.json?api_key=R7NLLQNPWE6V6RX7&results=1";
+    const sensorDiv = document.getElementById("sensorData");
+    
+    try {
+        sensorDiv.innerHTML = `<div class="loading">🌀 Initializing Quantum Sensors...</div>`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.feeds.length > 0) {
+            const latestEntry = data.feeds[0];
+            
+            // Get raw sensor values
+            const rawN = parseFloat(latestEntry.field1);
+            const rawP = parseFloat(latestEntry.field2);
+            const rawK = parseFloat(latestEntry.field3);
+            
+            // Apply the ppm conversion formulas and round to two decimal places
+            const correctedNPK = {
+                n: Math.round(rawN * 15 * 100) / 100, // N_ppm = Sensor N * 15
+                p: Math.round(rawP * 1 * 100) / 100,  // P_ppm = Sensor P * 1
+                k: Math.round(rawK * 3.5 * 100) / 100 // K_ppm = Sensor K * 3.5
+            };
+
+            console.log("Calculated and Rounded NPK Values:", correctedNPK); // This will show the calculated values in the browser console.
+
+            renderOrbs(correctedNPK);
+            await generateFullReport(correctedNPK);
+        }
+    } catch (error) {
+        sensorDiv.innerHTML = `<div class="error">⚠️ Quantum Sensor Array Offline</div>`;
+        console.error("Error fetching data:", error);
+    }
+}
+
+function renderOrbs(npk) {
+    const sensorDiv = document.getElementById("sensorData");
+    
+    sensorDiv.innerHTML = `
+        ${createOrb('Nitrogen', npk.n, 0.1)}
+        ${createOrb('Phosphorus', npk.p, 0.3)}
+        ${createOrb('Potassium', npk.k, 0.5)}
+    `;
+
+    document.querySelectorAll('.orb-fill').forEach((orb, index) => {
+        const values = [npk.n, npk.p, npk.k];
+        setTimeout(() => {
+            orb.style.background = `conic-gradient(
+                ${getStatusColor(values[index])} ${values[index]}%,
+                rgba(255,255,255,0.1) 0%
+            )`;
+        }, index * 200);
+    });
+}
+
+function createOrb(label, value, delay) {
+    return `
+        <div class="nutrient-orb" style="animation-delay: ${delay}s">
+            <div class="orb-fill"></div>
+            <div class="orb-content">
+                <div class="orb-value">${value}</div>
+                <div class="orb-label">${label}</div>
+            </div>
+        </div>
+    `;
+}
+
+async function generateFullReport(npk) {
+    const prompt = `Generate comprehensive soil analysis report with these NPK values:
+        Nitrogen: ${npk.n} mg/kg| Phosphorus: ${npk.p} mg/kg | Potassium: ${npk.k} mg/kg
+        Include in markdown format:
+        # Soil Health Report
+        ## Key Findings
+        - 3 bullet points
+        ## Recommendations 
+        - 4 actionable items with emojis
+        ## Natural Treatments
+        - 3 organic solutions
+        ## Crop Suggestions
+        - 3 suitable crops
+        Add scientific explanations for each section.`;
+
+    try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }]
+            })
+        });
+
+        const data = await response.json();
+        currentReport = data.candidates[0].content.parts[0].text;
+        formatReport(currentReport);
+    } catch (error) {
+        document.getElementById("aiAnalysis").innerHTML = `
+            <div class="report-item error">
+                ⚠️ Deep Learning Module Unavailable
+            </div>
+        `;
+    }
+}
+
+function formatReport(markdown) {
+    const reportDiv = document.getElementById("reportContent");
+    const sections = markdown.split('## ');
+    let html = '';
+
+    sections.forEach((section, index) => {
+        if(index === 0) return; // Skip title
+        
+        const [heading, ...content] = section.split('\n');
+        html += `
+            <div class="report-item" style="animation-delay: ${index * 0.2}s">
+                <h3 style="color: var(--sun-yellow); margin-bottom: 1rem;">${heading}</h3>
+                ${content.map(line => `
+                    <p style="line-height: 1.6; margin: 0.8rem 0;">
+                        ${line.replace('- ', '✦ ')}
+                    </p>
+                `).join('')}
+            </div>
+        `;
+    });
+
+    reportDiv.innerHTML = html;
+    document.querySelectorAll('.report-item').forEach((item, index) => {
+        item.style.animationDelay = `${index * 0.2}s`;
+    });
+}
+
+function getStatusColor(value) {
+    if(value < 30) return '#FF6B6B';
+    if(value > 70) return '#FFD700'; // Using yellow for high values
+    return '#90D26D';
+}
+
+async function translateReport(language) {
+    try {
+        const prompt = `Translate this soil analysis report to ${language} while maintaining all markdown formatting:\n\n${currentReport}`;
+        
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }]
+            })
+        });
+
+        const data = await response.json();
+        return data.candidates[0].content.parts[0].text;
+    } catch (error) {
+        console.error("Translation error:", error);
+        return null;
+    }
+}
+
+function downloadReport(content, language) {
+    const blob = new Blob([content], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `soil_report_${language.toLowerCase()}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// Initialize
+fetchLatestThingSpeakData();
+setInterval(fetchLatestThingSpeakData, 60000);
+
+// Download report functionality
+document.getElementById('downloadBtn').addEventListener('click', () => {
+    document.getElementById('languageModal').classList.add('active');
+});
+
+document.getElementById('cancelBtn').addEventListener('click', () => {
+    document.getElementById('languageModal').classList.remove('active');
+});
+
+document.getElementById('confirmBtn').addEventListener('click', async () => {
+    const language = document.getElementById('languageInput').value.trim();
+    if (!language) return;
+    
+    const modal = document.getElementById('languageModal');
+    modal.classList.remove('active');
+    
+    try {
+        const translatedReport = await translateReport(language);
+        if (translatedReport) {
+            downloadReport(translatedReport, language);
+        } else {
+            alert("Failed to translate the report. Please try again.");
+        }
+    } catch (error) {
+        alert("An error occurred during translation. Please try again.");
+    }
+});// language.js - Put this in a shared file and include in all HTML files
+// Language configuration
+const languageConfig = {
+    'en': { name: 'English', direction: 'ltr' },
+    'ta': { name: 'Tamil', direction: 'ltr' },
+    'te': { name: 'Telugu', direction: 'ltr' }
+};
+
+// Initialize language
+function initLanguage() {
+    // Get stored language or default to English
+    const langCode = localStorage.getItem('selectedLanguage') || 'en';
+    applyLanguage(langCode);
+    
+    // Setup Google Translate
+    initGoogleTranslate(langCode);
+}
+
+function applyLanguage(langCode) {
+    document.documentElement.lang = langCode;
+    document.documentElement.dir = languageConfig[langCode]?.direction || 'ltr';
+}
+
+function initGoogleTranslate(defaultLang) {
+    // First, set the Google Translate cookie to force the language
+    if (defaultLang && defaultLang !== 'en') {
+        document.cookie = `googtrans=/en/${defaultLang}; path=/; expires=${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString()}`;
+    }
+
+    // Create the Google Translate script if it doesn't exist
+    if (!window.google || !window.google.translate) {
+        const script = document.createElement('script');
+        script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+        document.head.appendChild(script);
+        
+        window.googleTranslateElementInit = function() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,ta,te',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+            
+            // Hide the Google Translate branding
+            const googleBranding = document.querySelector('.goog-te-banner-frame');
+            if (googleBranding) {
+                googleBranding.style.display = 'none';
+            }
+            
+            // Force the language selection
+            if (defaultLang && defaultLang !== 'en') {
+                setTimeout(() => {
+                    const select = document.querySelector('.goog-te-combo');
+                    if (select) {
+                        select.value = defaultLang;
+                        select.dispatchEvent(new Event('change'));
+                    }
+                }, 1000);
+            }
+        };
+    } else {
+        googleTranslateElementInit();
+    }
+}
+
+// Track language changes
+function trackLanguageChanges() {
+    setInterval(() => {
+        const iframe = document.querySelector('.goog-te-menu-frame');
+        if (iframe) {
+            iframe.contentDocument.querySelector('.goog-te-menu2-item').addEventListener('click', function() {
+                const lang = this.getAttribute('data-language');
+                localStorage.setItem('selectedLanguage', lang);
+                applyLanguage(lang);
+            });
+        }
+    }, 1000);
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initLanguage();
+    trackLanguageChanges();
+});
+</script>
+</body>
+</html>

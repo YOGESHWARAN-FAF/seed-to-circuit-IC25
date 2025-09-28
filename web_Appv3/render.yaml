@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: seed-to-circuit-app
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: FIREBASE_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY_2
+        sync: false
+      - key: NEWS_API_KEY
+        sync: false
+      - key: THINGSPEAK_API_KEY
+        sync: false
+      - key: THINGSPEAK_CHANNEL_ID
+        sync: false
+      - key: WEATHER_API_KEY
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true

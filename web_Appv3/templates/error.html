@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error - Seed to Circuit</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8d7da;
+      color: #721c24;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+    .error-container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      max-width: 400px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 15px;
+      color: #dc3545;
+    }
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    a {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #dc3545;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    a:hover {
+      background: #a71d2a;
+    }
+  </style>
+</head>
+<body>
+  <div class="error-container">
+    <h1>❌ Login Failed</h1>
+    <p>{{ message if message else "Something went wrong. Please login again." }}</p>
+    <a href="/">Go Back to Login</a>
+  </div>
+</body>
+</html>
